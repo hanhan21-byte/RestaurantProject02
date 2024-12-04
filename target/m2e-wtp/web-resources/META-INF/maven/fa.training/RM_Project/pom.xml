@@ -10,6 +10,7 @@
     <name>RM_Project Maven Webapp</name>
 
     <properties>
+        <!-- Specify Java 1.8 -->
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -17,14 +18,30 @@
     </properties>
 
     <dependencies>
-        <!-- Servlet API -->
+        <!-- Spring Web MVC -->
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>5.3.20</version>
         </dependency>
 
-        <!-- Gson for JSON processing -->
+        <!-- JSTL Dependency for Jakarta EE -->
+        <dependency>
+            <groupId>jakarta.servlet.jsp</groupId>
+            <artifactId>jakarta.servlet.jsp-api</artifactId>
+            <version>3.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Jakarta Servlet API -->
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>5.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Gson for JSON Processing -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
@@ -38,21 +55,19 @@
             <version>7.0.0.jre8</version>
         </dependency>
 
-        <!-- Log4j for logging -->
+        <!-- Log4j 2 for Logging -->
         <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.19.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.19.0</version>
         </dependency>
 
-        <!-- JSTL for JSP support -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
-            <version>1.2</version>
-        </dependency>
-
-        <!-- Mockito for unit testing -->
+        <!-- Mockito for Unit Testing -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
@@ -60,7 +75,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- JUnit 5 for unit testing -->
+        <!-- JUnit 5 for Unit Testing -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -78,7 +93,7 @@
 
     <build>
         <finalName>JavaWeb_P_L002</finalName>
-        
+
         <plugins>
             <!-- Compiler Plugin for Java 1.8 -->
             <plugin>

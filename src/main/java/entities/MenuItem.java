@@ -7,14 +7,16 @@ public class MenuItem {
     private String moTa;
     private String nguyenLieu;
     private String hinhAnh;
+    private String category;
 
-    public MenuItem(int id, String tenMon, double gia, String moTa, String nguyenLieu, String hinhAnh) {
+    public MenuItem(int id, String tenMon, double gia, String moTa, String nguyenLieu, String hinhAnh, String category) {
         this.id = id;
         this.tenMon = tenMon;
         this.gia = gia;
         this.moTa = moTa;
         this.nguyenLieu = nguyenLieu;
         this.hinhAnh = hinhAnh;
+        this.category = category;
     }
 
     public int getId() { return id; }
@@ -34,4 +36,7 @@ public class MenuItem {
 
     public String getHinhAnh() { return hinhAnh; }
     public void setHinhAnh(String hinhAnh) { this.hinhAnh = hinhAnh; }
+    
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
 }

@@ -7,8 +7,9 @@ import entities.MenuItem;
 import utils.DBUtils;
 
 public class MenuDao {
-	// Lấy tất cả các món ăn từ menu
-    public List<MenuItem> getAllMenuItems() {
+
+    // Lấy tất cả các món ăn từ menu
+    public List<MenuItem> getAllMenuItems() throws ClassNotFoundException {
         List<MenuItem> menuItems = new ArrayList<>();
         Connection connection = null;
         try {
@@ -23,10 +24,13 @@ public class MenuDao {
                 String moTa = rs.getString("mo_ta");
                 String nguyenLieu = rs.getString("nguyen_lieu");
                 String hinhAnh = rs.getString("hinh_anh");
+                String category = rs.getString("category");
+
                 
-                menuItems.add(new MenuItem(id, tenMon, gia, moTa, nguyenLieu, hinhAnh));
+                menuItems.add(new MenuItem(id, tenMon, gia, moTa, nguyenLieu, hinhAnh, category));
             }
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
+            System.out.println("Error while fetching menu items");
             e.printStackTrace();
         } finally {
             DBUtils.closeConnection(connection);
@@ -35,19 +39,22 @@ public class MenuDao {
     }
 
     // Thêm món mới vào menu
-    public boolean addMenuItem(MenuItem menuItem) {
+    public boolean addMenuItem(MenuItem menuItem) throws ClassNotFoundException {
         Connection connection = null;
         try {
             connection = DBUtils.getConnection();
-            String query = "INSERT INTO menu (ten_mon, gia, mo_ta, nguyen_lieu, hinh_anh) VALUES (?, ?, ?, ?, ?)";
+            String query = "INSERT INTO menu (ten_mon, gia, mo_ta, nguyen_lieu, hinh_anh, category) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setString(1, menuItem.getTenMon());
             stmt.setDouble(2, menuItem.getGia());
             stmt.setString(3, menuItem.getMoTa());
             stmt.setString(4, menuItem.getNguyenLieu());
             stmt.setString(5, menuItem.getHinhAnh());
+            stmt.setString(6, menuItem.getCategory());
+
             return stmt.executeUpdate() > 0;
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
+            System.out.println("Error while adding menu item");
             e.printStackTrace();
             return false;
         } finally {
@@ -56,20 +63,22 @@ public class MenuDao {
     }
 
     // Cập nhật món trong menu
-    public boolean updateMenuItem(MenuItem menuItem) {
+    public boolean updateMenuItem(MenuItem menuItem) throws ClassNotFoundException {
         Connection connection = null;
         try {
             connection = DBUtils.getConnection();
-            String query = "UPDATE menu SET ten_mon = ?, gia = ?, mo_ta = ?, nguyen_lieu = ?, hinh_anh = ? WHERE id = ?";
+            String query = "UPDATE menu SET ten_mon = ?, gia = ?, mo_ta = ?, nguyen_lieu = ?, hinh_anh = ?, category = ? WHERE id = ?";
             PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setString(1, menuItem.getTenMon());
             stmt.setDouble(2, menuItem.getGia());
             stmt.setString(3, menuItem.getMoTa());
             stmt.setString(4, menuItem.getNguyenLieu());
             stmt.setString(5, menuItem.getHinhAnh());
-            stmt.setInt(6, menuItem.getId());
+            stmt.setString(6, menuItem.getCategory());
+            stmt.setInt(7, menuItem.getId());
             return stmt.executeUpdate() > 0;
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
+            System.out.println("Error while updating menu item");
             e.printStackTrace();
             return false;
         } finally {
@@ -78,7 +87,7 @@ public class MenuDao {
     }
 
     // Xóa món khỏi menu
-    public boolean deleteMenuItem(int id) {
+    public boolean deleteMenuItem(int id) throws ClassNotFoundException {
         Connection connection = null;
         try {
             connection = DBUtils.getConnection();
@@ -86,7 +95,8 @@ public class MenuDao {
             PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setInt(1, id);
             return stmt.executeUpdate() > 0;
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
+            System.out.println("Error while deleting menu item");
             e.printStackTrace();
             return false;
         } finally {
@@ -95,7 +105,7 @@ public class MenuDao {
     }
 
     // Tìm kiếm món theo tên
-    public List<MenuItem> searchMenuItems(String tenMon) {
+    public List<MenuItem> searchMenuItems(String tenMon) throws ClassNotFoundException {
         List<MenuItem> menuItems = new ArrayList<>();
         Connection connection = null;
         try {
@@ -111,11 +121,13 @@ public class MenuDao {
                     rs.getDouble("gia"),
                     rs.getString("mo_ta"),
                     rs.getString("nguyen_lieu"),
-                    rs.getString("hinh_anh")
+                    rs.getString("hinh_anh"),
+                    rs.getString("category")
                 );
                 menuItems.add(menuItem);
             }
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
+            System.out.println("Error while searching menu items");
             e.printStackTrace();
         } finally {
             DBUtils.closeConnection(connection);
